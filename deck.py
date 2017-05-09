@@ -145,11 +145,7 @@ class Card:
             text = "A"
         else:
             text = str(self.value)
-        
-        
-        
-        
-        
+
         if self.symbol == 0:    #D-Diamonds
             text += "S" 
         elif self.symbol == 1:  #H-Hearts
