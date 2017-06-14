@@ -6,7 +6,7 @@ class Poker:
     #===============================================
     #------------------Constructor-----------------
     #===============================================
-    def __init__(self, number_of_players, debug = False):
+    def __init__(self, number_of_players = 2, debug = False):
         self.deck = deck()
         if number_of_players < 2 or number_of_players > 10:
             sys.exit("*** ERROR ***: Invalid number of players. It must be between 2 and 10.")

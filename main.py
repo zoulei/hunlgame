@@ -68,6 +68,9 @@ print "-----------------------"
 print "6. Determining Score"
 try:
     results = poker.determine_score(community_cards, players_hands)
+    print "results:"
+    for v in results:
+        print v
 except:
     sys.exit("*** ERROR ***: Problem determining the score.")
 
