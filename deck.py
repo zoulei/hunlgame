@@ -23,6 +23,10 @@ def generateHands(handsstr):
     if len(handsstr) == 3:
         value1 = handsstr[0]
         value2 = handsstr[1]
+        if value1 > value2:
+            tmp = value1
+            value1 = value2
+            value2 = tmp
         suti = handsstr[2]
         if suti == "s":
             suti = 1
@@ -60,7 +64,7 @@ def generateHands(handsstr):
 
 class Hands:
     def __init__(self,hands):
-        if hands[0] < hands[1]:
+        if hands[0].cmp(hands[1]) < 0:
             self.m_card1 = hands[0]
             self.m_card2 = hands[1]
         else:
@@ -75,6 +79,12 @@ class Hands:
 
     def __str__(self):
         return str(self.m_card1) + " " +str(self.m_card2)
+
+    def shortstr(self):
+        if self.m_card1.symbol == self.m_card2.symbol:
+            return str(self.m_card1)[0] + str(self.m_card2)[0] + "s"
+        else:
+            return str(self.m_card1)[0] + str(self.m_card2)[0] + "o"
 
     def equal(self,handsstr):
         trandict = {"J":11,"Q":12,"K":13,"A":14,"j":11,"q":12,"k":13,"a":14}
@@ -95,7 +105,6 @@ class Hands:
         else:
             value2 = int(value2)
 
-
     def get(self):
         return [self.m_card1,self.m_card2]
 
@@ -115,13 +124,28 @@ class Card:
     def __init__(self, symbol, value):
         self.symbol = symbol
         self.value = value
-    
+
+    # compare value
     def __cmp__(self, other):
         if self.value < other.value:
             return -1
         elif self.value == other.value:
             return 0
         return 1
+
+    # compare value and symbol
+    def cmp(self,other):
+        if self.value < other.value:
+            return -1
+        elif self.value > other.value:
+            return 1
+        else:
+            if self.symbol > other.symbol:
+                return -1
+            elif self.symbol < other.symbol:
+                return 1
+            else:
+                return 0
 
     def __eq__(self, other):
         if self.value == other.value and self.symbol == other.symbol:
@@ -210,14 +234,19 @@ class deck:
 
 def Test():
     h1 = generateHands("27o")
-    h2 = Hands([Card(3,2),Card(4,2)])
-    print h1 == h2
+    h4 = generateHands("72o")
+    h2 = Hands([Card(2,2),Card(3,2)])
+    h3 = Hands([Card(3,2),Card(2,2)])
+    print h2== h3
+    print h1
+    print h4
+    print h2
+    print h3
 
 def Test1():
-    h1 = generateHands("3s5h8H90TS")
-    for v in h1:
-        print v
+    h1 = generateHands("3s5h")
+    print h1
 
 if __name__ == "__main__":
-    Test1()
+    Test()
 

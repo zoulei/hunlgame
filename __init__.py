@@ -1,7 +1,10 @@
 from holdem import Poker
 import sys, random
 import deck
+from handsrange import HandsRange
+from deck import Hands
 
+# card prensetation is [symbol, value]
 def getwinner(board, privatecard, coloroffset = 0):
     poker = Poker(9, False)
 
@@ -24,7 +27,7 @@ def getwinner(board, privatecard, coloroffset = 0):
         return [winner,]
 
 def sorthands(board, privatecard, coloroffset = 0):
-    poker = Poker()
+    # poker = Poker()
 
     cardboard = []
     for carddata in board:
@@ -37,6 +40,10 @@ def sorthands(board, privatecard, coloroffset = 0):
             cardhand.append(deck.Card(carddata[0]+coloroffset,carddata[1]) )
         handsdata.append(cardhand)
 
+    return sorthands_(cardboard,handsdata)
+
+def sorthands_(cardboard,handsdata):
+    poker = Poker()
     results = poker.determine_score(cardboard, handsdata)
     results = zip(results,range(len(results)))
     def cmphands(result1,result2):
