@@ -2,7 +2,8 @@ from holdem import Poker
 import sys, random
 import deck
 from handsrange import HandsRange
-from deck import Hands
+from deck import Hands, Card
+import copy
 
 # card prensetation is [symbol, value]
 def getwinner(board, privatecard, coloroffset = 0):
@@ -77,6 +78,12 @@ def sorthands_(cardboard,handsdata):
 
     return sortresult
 
+def board2str(board):
+    tmpboard = copy.deepcopy(board)
+    tmpboard.sort()
+    tmpboardstr = [str(v) for v in tmpboard]
+    return " ".join(tmpboardstr)
+
 if __name__ == "__main__":
     # print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
     # print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]]],-1)
@@ -89,3 +96,4 @@ if __name__ == "__main__":
     print sorthands([[1,13],[1,12],[1,14],[4,2],[4,3]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
     print sorthands([[1,13],[1,12],[1,14]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
 
+    print board2str([Card(1,13),Card(1,12),Card(3,13)])
