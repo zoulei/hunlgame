@@ -79,7 +79,7 @@ def sorthands_(cardboard,handsdata):
     return sortresult
 
 def board2str(board):
-    tmpboard = copy.deepcopy(board)
+    tmpboard = copy.deepcopy(list(board))
     tmpboard.sort()
     tmpboardstr = [str(v) for v in tmpboard]
     return " ".join(tmpboardstr)
