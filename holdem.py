@@ -344,8 +344,9 @@ class Poker:
             #Reverses the list for easy comparison in the event of a tie
             kicker.reverse()
             #Since the hand is sorted it will pop the two lowest cards position 0, 1 of the list
-            kicker.pop()
-            kicker.pop()       
+            kicker = kicker[:5]
+            # kicker.pop()
+            # kicker.pop()
             #The reason we reverse then pop is because lists are inefficient at popping from
             #the beginning of the list, but fast at popping from the end therefore we reverse 
             #the list and then pop the last two elements which will be the two lowest cards
