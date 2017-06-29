@@ -56,8 +56,8 @@ class HandsPower:
         valueResults = poker.determine_score(self.m_board,[valueHands.get(),])
 
         win = 0
-        lose = 0
         tie = 0
+        lose = 0
         blank = 0
         for hands in handsRange:
             cmpResult = poker.determine_score(self.m_board,[hands.get(),])
@@ -115,6 +115,8 @@ def Test1():
 
     Test2("A3T0", "T37323", "72Q0")
     Test2("93T0", "T37323", "72Q0")
+
+    Test2("93T0", "A2T2913323", "A1K1")
 
 if __name__ == "__main__":
     Test1()
