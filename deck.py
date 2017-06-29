@@ -127,11 +127,13 @@ class Card:
 
     # compare value
     def __cmp__(self, other):
-        if self.value < other.value:
-            return -1
-        elif self.value == other.value:
-            return 0
-        return 1
+        return self.cmp(other)
+
+        # if self.value < other.value:
+        #     return -1
+        # elif self.value == other.value:
+        #     return 0
+        # return 1
 
     # compare value and symbol
     def cmp(self,other):

@@ -130,6 +130,7 @@ class Poker:
         if 4 in nop:        #Has 4 of a kind, assigns the score and the value of the 
             score = 7
             kicker = pairs.keys()
+            kicker.sort()
             #ensures the first kicker is the value of the 4 of a kind
             kicker = [key for key in kicker if pairs[key] == 4] 
             key = kicker[0]
@@ -150,7 +151,8 @@ class Poker:
                 
                 #gets a list of all the pairs and reverses it
                 kicker = pairs.keys()
-                kicker.reverse()
+                kicker.sort(reverse=True)
+
                 temp = kicker
                 
                 #ensures the first kicker is the value of the highest 3 of a king
@@ -168,6 +170,7 @@ class Poker:
                 score = 3
                 
                 kicker = pairs.keys()       #Gets the value of the 3 of a king
+                kicker.sort()
                 key = kicker[0]
                 
                 #Gets a list of all the cards remaining once the three of a kind is removed
@@ -184,9 +187,10 @@ class Poker:
             if nop[2] >= 2:     #Has at least 2  or 3 pairs
                 score = 2
                 
-                kicker = pairs.keys()   #Gets the card value of all the pairs 
-                kicker.reverse()        #reverses the key so highest pairs are used
-                
+                kicker = pairs.keys()   #Gets the card value of all the pairs
+
+                kicker.sort(reverse=True)        #reverses the key so highest pairs are used
+
                 if ( len(kicker) == 3 ):    #if the user has 3 pairs takes only the highest 2
                     kicker.pop()
                     
@@ -204,6 +208,7 @@ class Poker:
                 score = 1 
                 
                 kicker = pairs.keys()   #Gets the value of the pair
+                kicker.sort()
                 key = kicker[0] 
      
                 #Gets a list of all the cards remaining once pair are removed
@@ -344,8 +349,9 @@ class Poker:
             #Reverses the list for easy comparison in the event of a tie
             kicker.reverse()
             #Since the hand is sorted it will pop the two lowest cards position 0, 1 of the list
-            kicker.pop()
-            kicker.pop()       
+            kicker = kicker[:5]
+            # kicker.pop()
+            # kicker.pop()
             #The reason we reverse then pop is because lists are inefficient at popping from
             #the beginning of the list, but fast at popping from the end therefore we reverse 
             #the list and then pop the last two elements which will be the two lowest cards

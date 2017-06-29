@@ -2,7 +2,8 @@ from holdem import Poker
 import sys, random
 import deck
 from handsrange import HandsRange
-from deck import Hands
+from deck import Hands, Card
+import copy
 
 # card prensetation is [symbol, value]
 def getwinner(board, privatecard, coloroffset = 0):
@@ -43,7 +44,7 @@ def sorthands(board, privatecard, coloroffset = 0):
     return sorthands_(cardboard,handsdata)
 
 def sorthands_(cardboard,handsdata):
-    poker = Poker()
+    poker = Poker(debug=False)
     results = poker.determine_score(cardboard, handsdata)
     results = zip(results,range(len(results)))
     def cmphands(result1,result2):
@@ -77,12 +78,24 @@ def sorthands_(cardboard,handsdata):
 
     return sortresult
 
+def board2str(board):
+    tmpboard = copy.deepcopy(list(board))
+    tmpboard.sort()
+    tmpboardstr = [str(v) for v in tmpboard]
+    return " ".join(tmpboardstr)
+
 if __name__ == "__main__":
-    print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
-    print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]]],-1)
-    print "sorthands:"
-    print sorthands([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]],[[3,10],[3,9]]],-1)
-    print sorthands([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
-    print sorthands([[1,13],[1,12],[1,11]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
-    print sorthands([[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
-    print sorthands([[1,13],[1,12],[1,11],[3,2]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print getwinner([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]]],-1)
+    # print "sorthands:"
+    # print sorthands([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]],[[3,10],[3,9]]],-1)
+    # print sorthands([[1,13],[1,12],[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print sorthands([[1,13],[1,12],[1,11]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print sorthands([[1,11],[2,5],[3,8]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print sorthands([[1,13],[1,12],[1,11],[3,2]], [[[2,14],[2,10]] ,[[3,10],[3,9]] ,[[1,6],[1,2]]],-1)
+    # print sorthands([[1,13],[1,12],[1,14],[4,2],[4,3]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
+    # print sorthands([[1,13],[1,12],[1,14]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
+
+    # print board2str([Card(1,13),Card(1,12),Card(3,13)])
+
+    print sorthands([[1,6],[2,7],[1,14],[3,2],[3,3]], [[[3,6],[3,7]] ,[[3,6],[3,14]] ,[[3,7],[3,14]]],-1)
