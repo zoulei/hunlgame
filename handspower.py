@@ -95,7 +95,7 @@ def Test2(handsstr,boardstr,valuestr):
 
 def Test1():
     handspower = HandsPower(generateHands("ATo"), generateCards("T27321"))
-    handspower = handspower.getHandsPower(valueHands=generateHands("72Q0"))
+    handspower = handspower.getHandsPower(valueHands=generateHands("T380"))
     print "ATo:T27321"
     for v in handspower:
         print v
@@ -110,7 +110,7 @@ def Test1():
     for v in handspower:
         print v
 
-    Test2("ATo","T37323","72Q0")
+    Test2("ATo","A37223","A240")
     Test2("9To", "T37323", "72Q0")
 
     Test2("A3T0", "T37323", "72Q0")
