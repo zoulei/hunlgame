@@ -161,8 +161,8 @@ class Card:
         text = ""
         if self.value < 0:
             return "Joker";
-        elif self.value == 10:
-            text = "T"
+        # elif self.value == 10:
+        #     text = "T"
         elif self.value == 11:
             text = "J"
         elif self.value == 12:
