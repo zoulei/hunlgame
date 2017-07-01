@@ -118,5 +118,8 @@ def Test1():
 
     Test2("93T0", "A2T2913323", "A1K1")
 
+    Test2("A0K3", "A37221", "A2T0")
+
+
 if __name__ == "__main__":
     Test1()
