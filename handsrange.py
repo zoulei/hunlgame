@@ -131,8 +131,8 @@ class HandsRange:
         self.addRule(highCard=14,lowCard=10)
         self.addpair()
         self.addRule(suti=1,highCard=14)
-        self.eliminate(deck.generateHands("22o"))
-        self.add(deck.Hands([deck.Card(0,2),deck.Card(1,7)]))
+        #self.eliminate(deck.generateHands("22o"))
+        #self.add(deck.Hands([deck.Card(0,2),deck.Card(1,7)]))
         return self.get()
 
     def addFullRange(self):
