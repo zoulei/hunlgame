@@ -1,4 +1,6 @@
 from random import shuffle
+import copy
+import itertools
 
 def generateCards(handsstr):
     trandict = {"T": 10, "t": 10, "J": 11, "Q": 12, "K": 13, "A": 14, "j": 11, "q": 12, "k": 13, "a": 14, "S": 0,
@@ -61,6 +63,36 @@ def generateHands(handsstr):
 
             cardsList.append(Card(symbol,value))
         return Hands(cardsList)
+
+class Board:
+    def __init__(self, cardslist):
+        self.m_cards = cardslist
+        self.m_cards.sort()
+
+    def similar(self, other):
+        pass
+
+    def __eq__(self, other):
+        return self.m_cards == other.m_cards
+
+    def weakequal(self, other):
+        tmpmycards = copy.deepcopy(self.m_cards)
+        tmpmycards.sort(key=lambda v:v.symbol)
+        gp = itertools.groupby(tmpmycards, key = lambda v:v.symbol)
+        mycardinfo = [[x.value for x in v ] for v in gp ]
+
+        tmpothercards = copy.deepcopy(other.m_cards)
+        tmpothercards.sort(key=lambda v:v.symbol)
+        othergp = itertools.groupby(tmpothercards, key = lambda v:v.symbol)
+        othercardinfo = [[x.value for x in v ] for v in othergp ]
+
+        for cardvalues in mycardinfo:
+            if cardvalues not in othercardinfo:
+                return False
+        return True
+
+    def length(self):
+        return len(self.m_cards)
 
 class Hands:
     def __init__(self,hands):
