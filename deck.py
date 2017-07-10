@@ -66,7 +66,7 @@ def generateHands(handsstr):
 
 class Board:
     def __init__(self, cardslist):
-        self.m_cards = cardslist
+        self.m_cards = list(copy.deepcopy(cardslist))
         self.m_cards.sort()
 
     def similar(self, other):
@@ -79,12 +79,16 @@ class Board:
         tmpmycards = copy.deepcopy(self.m_cards)
         tmpmycards.sort(key=lambda v:v.symbol)
         gp = itertools.groupby(tmpmycards, key = lambda v:v.symbol)
-        mycardinfo = [[x.value for x in v ] for v in gp ]
+        # for s,v in gp:
+        #     print s,v
+        #     for k in v:
+        #         print k
+        mycardinfo = [[x.value for x in v ] for s,v in gp ]
 
         tmpothercards = copy.deepcopy(other.m_cards)
         tmpothercards.sort(key=lambda v:v.symbol)
         othergp = itertools.groupby(tmpothercards, key = lambda v:v.symbol)
-        othercardinfo = [[x.value for x in v ] for v in othergp ]
+        othercardinfo = [[x.value for x in v ] for s,v in othergp ]
 
         for cardvalues in mycardinfo:
             if cardvalues not in othercardinfo:
@@ -283,6 +287,27 @@ def Test1():
     h1 = generateHands("3s5h")
     print h1
 
-if __name__ == "__main__":
-    Test()
+def TestPossibleBoard(boardlen):
+    import handsrange
+    handsobj = handsrange.HandsRange()
+    allcards = handsobj._generateallcard()
+    allboards = itertools.combinations(allcards,boardlen)
 
+    validboards = []
+    idx = 0
+    for board in allboards:
+        idx += 1
+        if idx % 1000 == 0:
+            print idx, ":" , len(validboards)
+        board = Board(board)
+        for validboard in validboards:
+            if board.weakequal(validboard):
+                break
+        else:
+            validboards.append(board)
+
+    print len(validboards) # more than 1600
+
+if __name__ == "__main__":
+    # Test()
+    TestPossibleBoard(3)
