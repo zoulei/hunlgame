@@ -82,13 +82,22 @@ def sorthands_(cardboard,handsdata):
 # Example:  [[[handsobj1, 0.01],[handsobj2, 0.015],...] ,   []]
 # the smallest element is Card object.
 def calwinrate(ownhands, opponenthandsdata, board):
+    winrate = 0
     for handsdata in opponenthandsdata:
         newhandsdata = [v[0] for v in handsdata] + [ownhands,]
         ownidx = len(newhandsdata) - 1
         sortresult = sorthands_(board,newhandsdata)
         for key,value in sortresult.items():
-            if  ownidx in value:
-                pass
+            if ownidx in value:
+                # win ownidx -1 hands
+                # tie len(value) -1 hands
+                # lose to len(newhandsdata) - win - tie - 1
+                win = ownidx - 1
+                tie = len(value) - 1
+                lose = len(newhandsdata) - win - tie - 1
+                winrate*=( 1.0 (win + tie) / (win + tie + lose) )
+                break
+    return winrate
 
 def board2str(board):
     tmpboard = copy.deepcopy(list(board))
@@ -111,3 +120,5 @@ if __name__ == "__main__":
     print board2str([Card(1,13),Card(1,12),Card(3,13)])
 
     print sorthands([[1,6],[2,7],[1,14],[3,2],[3,3]], [[[3,6],[3,7]] ,[[3,6],[3,14]] ,[[3,7],[3,14]]],-1)
+
+    print sorthands([[1,6],[2,7],[1,14],[3,2],[3,3]], [[[3,6],[3,7]] ,[[3,6],[3,14]] ,[[3,7],[3,14]],[[3,6],[3,7]]  ],-1)
