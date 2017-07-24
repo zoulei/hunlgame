@@ -78,6 +78,27 @@ def sorthands_(cardboard,handsdata):
 
     return sortresult
 
+# opponenthandsdata is a list of hands list, each hands list represent a opponent's hands range with its' probability.
+# Example:  [[[handsobj1, 0.01],[handsobj2, 0.015],...] ,   []]
+# the smallest element is Card object.
+def calwinrate(ownhands, opponenthandsdata, board):
+    winrate = 0
+    for handsdata in opponenthandsdata:
+        newhandsdata = [v[0] for v in handsdata] + [ownhands,]
+        ownidx = len(newhandsdata) - 1
+        sortresult = sorthands_(board,newhandsdata)
+        for key,value in sortresult.items():
+            if ownidx in value:
+                # win ownidx -1 hands
+                # tie len(value) -1 hands
+                # lose to len(newhandsdata) - win - tie - 1
+                win = ownidx - 1
+                tie = len(value) - 1
+                lose = len(newhandsdata) - win - tie - 1
+                winrate*=( 1.0 * (win + tie) / (win + tie + lose) )
+                break
+    return winrate
+
 def board2str(board):
     tmpboard = copy.deepcopy(list(board))
     tmpboard.sort()
