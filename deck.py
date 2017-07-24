@@ -1,6 +1,7 @@
 from random import shuffle
 import copy
 import itertools
+import handsrange
 
 def generateCards(handsstr):
     trandict = {"T": 10, "t": 10, "J": 11, "Q": 12, "K": 13, "A": 14, "j": 11, "q": 12, "k": 13, "a": 14, "S": 0,
@@ -75,6 +76,9 @@ class Board:
     def __eq__(self, other):
         return self.m_cards == other.m_cards
 
+    def __str__(self):
+        return " ".join([str(v) for v in self.m_cards])
+
     def weakequal(self, other):
         tmpmycards = copy.deepcopy(self.m_cards)
         tmpmycards.sort(key=lambda v:v.symbol)
@@ -132,6 +136,25 @@ class Board:
         if (diff1 == 1 and diff2 == 2) or (diff1 == 2 and diff2 == 1):
             return True
         return False
+
+class Cardsengine:
+    def generateallhands(self):
+        return self.generatehandscombination(2)
+
+    def generateallflop(self):
+        return self.generatehandscombination(3)
+
+    def generateallturn(self):
+        return self.generatehandscombination(4)
+
+    def generateallriver(self):
+        return self.generatehandscombination(5)
+
+    def generatehandscombination(self, cardsnumber):
+        handsobj = handsrange.HandsRange()
+        allcards = handsobj._generateallcard()
+        allboards = itertools.combinations(allcards,cardsnumber)
+        return allboards
 
 class Hands:
     def __init__(self,hands):
@@ -351,7 +374,23 @@ def Testflopboardtype():
     print boardobj.issequence()
     print boardobj.isweaksequence()
 
+def Testcardsengine():
+    engineobj = Cardsengine()
+    allflop = engineobj.generateallflop()
+    idx = 0
+    for v in allflop:
+        idx += 1
+    print idx
+
+    allflop = engineobj.generateallhands()
+    idx = 0
+    for v in allflop:
+        print Board(v)
+        idx += 1
+    print idx
+
 if __name__ == "__main__":
     # Test()
     # TestPossibleBoard(3)
-    Testflopboardtype()
+    # Testflopboardtype()
+    Testcardsengine()
