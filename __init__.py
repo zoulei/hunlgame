@@ -4,7 +4,6 @@ import deck
 from handsrange import HandsRange
 from deck import Hands, Card, generateCards
 import copy
-from toygame import Toypoker
 
 # card prensetation is [symbol, value]
 def getwinner(board, privatecard, coloroffset = 0):
@@ -22,29 +21,6 @@ def getwinner(board, privatecard, coloroffset = 0):
         handsdata.append(cardhand)
 
     results = poker.determine_score(cardboard, handsdata)
-    winner = poker.determine_winner(results)
-    if isinstance(winner,list):
-        return winner
-    else:
-        return [winner,]
-
-def gettoygamewinner(board, privatecard, coloroffset = 0, debug = False):
-    poker = Toypoker(9, False)
-
-    cardboard = []
-    for carddata in board:
-        cardboard.append(deck.Card(carddata[0]+coloroffset,carddata[1]))
-
-    handsdata = []
-    for hands in privatecard:
-        cardhand = []
-        for carddata in hands:
-            cardhand.append(deck.Card(carddata[0]+coloroffset,carddata[1]) )
-        handsdata.append(cardhand)
-
-    results = poker.determine_score(cardboard, handsdata)
-    if debug:
-        print results
     winner = poker.determine_winner(results)
     if isinstance(winner,list):
         return winner
@@ -120,14 +96,6 @@ if __name__ == "__main__":
     # print sorthands([[1,13],[1,12],[1,14],[4,2],[4,3]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
     # print sorthands([[1,13],[1,12],[1,14]], [[[2,9],[1,11]] ,[[2,8],[1,11]] ,[[2,6],[1,11]]],-1)
 
-    # print board2str([Card(1,13),Card(1,12),Card(3,13)])
-    #
-    # print sorthands([[1,6],[2,7],[1,14],[3,2],[3,3]], [[[3,6],[3,7]] ,[[3,6],[3,14]] ,[[3,7],[3,14]]],-1)
-    #
-    # print getwinner([[1,13],[1,12],[1,11],[2,10],[3,9]], [[[2,14],[2,8]] ,[[3,10],[3,9]] ,[[1,6],[3,2]]],-1)
-    # print getwinner([[1,13],[1,12],[1,11],[1,10],[1,8]], [[[1,7],[1,6]] ,[[1,5],[1,4]] ,[[1,3],[1,2]]],-1)
+    print board2str([Card(1,13),Card(1,12),Card(3,13)])
 
-
-    print gettoygamewinner([[2,12],[1,10],[1,8]],
-                           [[[1,7],[1,6]] ,[[2,7],[2,9]] ,[[2,9],[2,11]] ,[[2,8],[3,8]] ,[[1,7],[1,9]]],
-                           -1, True)
+    print sorthands([[1,6],[2,7],[1,14],[3,2],[3,3]], [[[3,6],[3,7]] ,[[3,6],[3,14]] ,[[3,7],[3,14]]],-1)
