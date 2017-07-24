@@ -2,7 +2,7 @@ from holdem import Poker
 import sys, random
 import deck
 from handsrange import HandsRange
-from deck import Hands, Card, generateCards, Board
+from deck import Hands, Card, generateCards, Board, Cardsengine
 import copy
 
 # card prensetation is [symbol, value]
