@@ -7,6 +7,7 @@ class Toypoker(Poker):
     def __init__(self, playernumber = 2, debug = False):
         Poker.__init__(self, playernumber, debug)
 
+    # there is no sequence that A is 1
     def score(self,hand):
         score = 0
         kicker = []

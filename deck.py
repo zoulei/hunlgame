@@ -98,6 +98,41 @@ class Board:
     def length(self):
         return len(self.m_cards)
 
+    # this function works when the board is flop and has only 3 cards
+    def isabb(self):
+        for idx in xrange(len(self.m_cards) - 1):
+            if self.m_cards[idx].value == self.m_cards[idx + 1].value:
+                return True
+        return False
+
+    # this function works when the board is flop and has only 3 cards
+    def isflush(self):
+        symbol0 = self.m_cards[0].symbol
+        symbol1 = self.m_cards[1].symbol
+        symbol2 = self.m_cards[2].symbol
+
+        return (symbol0 == symbol1) and (symbol0 == symbol2)
+
+    # this function works when the board is flop and has only 3 cards
+    def issequence(self):
+        for idx in xrange(len(self.m_cards) - 1):
+            if not (self.m_cards[idx].value == self.m_cards[idx + 1].value - 1):
+                return False
+        return True
+
+    # this function works when the board is flop and has only 3 cards
+    def isweaksequence(self):
+        value0 = self.m_cards[0].value
+        value1 = self.m_cards[1].value
+        value2 = self.m_cards[2].value
+
+        diff1 = value1 - value0
+        diff2 = value2 - value1
+
+        if (diff1 == 1 and diff2 == 2) or (diff1 == 2 and diff2 == 1):
+            return True
+        return False
+
 class Hands:
     def __init__(self,hands):
         if hands[0].cmp(hands[1]) < 0:
@@ -308,6 +343,15 @@ def TestPossibleBoard(boardlen):
 
     print len(validboards) # more than 1600
 
+def Testflopboardtype():
+    # boardobj = Board(generateCards("3s5h6h"))
+    boardobj = Board(generateCards("3h4h5s"))
+    print boardobj.isabb()
+    print boardobj.isflush()
+    print boardobj.issequence()
+    print boardobj.isweaksequence()
+
 if __name__ == "__main__":
     # Test()
-    TestPossibleBoard(3)
+    # TestPossibleBoard(3)
+    Testflopboardtype()
