@@ -138,6 +138,16 @@ class Board:
         return False
 
 class Cardsengine:
+    def __init__(self):
+        self.m_handsobj = handsrange.HandsRange()
+        self.resetcards()
+
+    def resetcards(self):
+        self.m_cards = self.m_handsobj._generateallcard()
+
+    def remove(self,card):
+        self.m_cards.remove(card)
+
     def generateallhands(self):
         return self.generatehandscombination(2)
 
@@ -151,9 +161,7 @@ class Cardsengine:
         return self.generatehandscombination(5)
 
     def generatehandscombination(self, cardsnumber):
-        handsobj = handsrange.HandsRange()
-        allcards = handsobj._generateallcard()
-        allboards = itertools.combinations(allcards,cardsnumber)
+        allboards = itertools.combinations(self.m_cards,cardsnumber)
         return allboards
 
 class Hands:
@@ -376,6 +384,7 @@ def Testflopboardtype():
 
 def Testcardsengine():
     engineobj = Cardsengine()
+    engineobj.remove(generateCards("2D")[0])
     allflop = engineobj.generateallflop()
     idx = 0
     for v in allflop:
