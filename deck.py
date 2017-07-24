@@ -140,9 +140,9 @@ class Board:
 class Cardsengine:
     def __init__(self):
         self.m_handsobj = handsrange.HandsRange()
-        self.resetcards()
+        self.reset()
 
-    def resetcards(self):
+    def reset(self):
         self.m_cards = self.m_handsobj._generateallcard()
 
     def remove(self,card):
