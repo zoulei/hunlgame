@@ -164,6 +164,35 @@ class Cardsengine:
         allboards = itertools.combinations(self.m_cards,cardsnumber)
         return allboards
 
+    @ staticmethod
+    def shorthandstoallhands(handsstr):
+        handslist = []
+        if handsstr[0] == handsstr[1]:
+            for symbol1 in xrange(4):
+                for symbol2 in xrange(symbol1+1,4):
+                    value = Card.VALUEDICT[handsstr[0]]
+                    card1 = Card(symbol1,value)
+                    card2 = Card(symbol2,value)
+                    handslist.append(Hands([card1,card2]))
+        elif handsstr[-1] == "o":
+            for symbol1 in xrange(4):
+                for symbol2 in xrange(4):
+                    if symbol1 == symbol2:
+                        continue
+                    value1 = Card.VALUEDICT[handsstr[0]]
+                    value2 = Card.VALUEDICT[handsstr[1]]
+                    card1 = Card(symbol1,value1)
+                    card2 = Card(symbol2,value2)
+                    handslist.append(Hands([card1,card2]))
+        elif handsstr[-1] == "s":
+            for symbol in xrange(4):
+                value1 = Card.VALUEDICT[handsstr[0]]
+                value2 = Card.VALUEDICT[handsstr[1]]
+                card1 = Card(symbol,value1)
+                card2 = Card(symbol,value2)
+                handslist.append(Hands([card1,card2]))
+        return handslist
+
 class Hands:
     def __init__(self,hands):
         if hands[0].cmp(hands[1]) < 0:
@@ -223,6 +252,7 @@ class Hands:
         return self.m_card1.value
 
 class Card:
+    VALUEDICT = {"K":13,"A":14,"Q":12,"J":11,"T":10,"9":9,"8":8,"7":7,"6":6,"5":5,"4":4,"3":3,"2":2}
     def __init__(self, symbol, value):
         self.symbol = symbol
         self.value = value
@@ -398,8 +428,13 @@ def Testcardsengine():
         idx += 1
     print idx
 
+def Testshorthandstoallhands():
+    for v in Cardsengine.shorthandstoallhands("22o"):
+        print v
+
 if __name__ == "__main__":
     # Test()
     # TestPossibleBoard(3)
     # Testflopboardtype()
-    Testcardsengine()
+    # Testcardsengine()
+    Testshorthandstoallhands()
