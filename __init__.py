@@ -5,6 +5,7 @@ from handsrange import HandsRange
 from deck import Hands, Card, generateCards, Board, Cardsengine
 import copy
 from toygame import Toypoker
+from WinrateCalculator import SoloWinrateCalculator
 
 # card prensetation is [symbol, value]
 def getwinner(board, privatecard, coloroffset = 0):
