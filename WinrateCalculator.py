@@ -38,8 +38,8 @@ class SoloWinrateCalculator:
                 if card in ophands[idx].get():
                     del ophands[idx]
 
-            if not len(myhands) or not len(ophands):
-                raise
+        if not len(myhands) or not len(ophands):
+            return -1
 
         mylen = len(myhands)
         oplen = len(ophands)
@@ -75,6 +75,7 @@ class SoloWinrateCalculator:
             allcards.remove(card)
 
         avgwinrate = 0
+        ignore = 0
         for card in allcards:
             board = copy.deepcopy(self.m_board)
             board.append(card)
@@ -82,9 +83,13 @@ class SoloWinrateCalculator:
             myhands = copy.deepcopy(self.m_myhands)
             ophands = copy.deepcopy(self.m_ophands)
 
-            avgwinrate += self.calmywinrate_(board,myhands,ophands)
+            winrate = self.calmywinrate_(board,myhands,ophands)
+            if winrate == -1:
+                ignore += 1
+            else:
+                avgwinrate += self.calmywinrate_(board,myhands,ophands)
 
-        avgwinrate /= len(allcards)
+        avgwinrate /= ( len(allcards) - ignore )
         return avgwinrate
 
 def test():
