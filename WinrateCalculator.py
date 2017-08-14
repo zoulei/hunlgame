@@ -30,6 +30,17 @@ class SoloWinrateCalculator:
         self.m_pokerengine = Poker()
 
     def calmywinrate_(self, board, myhands, ophands):
+        for card in board:
+            for idx in xrange(len(myhands) - 1, -1 -1):
+                if card in myhands[idx].get():
+                    del myhands[idx]
+            for idx in xrange(len(ophands) - 1, -1 -1):
+                if card in ophands[idx].get():
+                    del ophands[idx]
+
+            if not len(myhands) or not len(ophands):
+                raise
+
         mylen = len(myhands)
         oplen = len(ophands)
         handinfo = []
@@ -53,7 +64,9 @@ class SoloWinrateCalculator:
         return avgwinrate
 
     def calmywinrate(self):
-        return self.calmywinrate_(self.m_board,self.m_myhands,self.m_ophands)
+        myhands = copy.deepcopy(self.m_myhands)
+        ophands = copy.deepcopy(self.m_ophands)
+        return self.calmywinrate_(self.m_board,myhands,ophands)
 
     def calnextturnwinrate(self):
         handrangeobj = HandsRange()
@@ -68,13 +81,6 @@ class SoloWinrateCalculator:
 
             myhands = copy.deepcopy(self.m_myhands)
             ophands = copy.deepcopy(self.m_ophands)
-
-            for idx in xrange(len(myhands) - 1, -1 -1):
-                if card in myhands[idx].get():
-                    del myhands[idx]
-            for idx in xrange(len(ophands) - 1, -1 -1):
-                if card in ophands[idx].get():
-                    del ophands[idx]
 
             avgwinrate += self.calmywinrate_(board,myhands,ophands)
 
