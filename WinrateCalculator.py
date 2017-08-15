@@ -20,12 +20,14 @@ def cmphands(result1,result2):
             return 0
 
 class SoloWinrateCalculator:
-    def __init__(self, board, myhands, ophands):
+    def __init__(self, board, myhands, ophands,debug = False):
         self.m_myhands = myhands
         self.m_ophands = ophands
         self.m_board = board
         self.m_mylen = len(myhands)
         self.m_oplen = len(ophands)
+
+        self.m_debug = debug
 
         self.m_pokerengine = Poker()
 
@@ -44,11 +46,16 @@ class SoloWinrateCalculator:
         mylen = len(myhands)
         oplen = len(ophands)
         handinfo = []
-        for hand in myhands + ophands:
+        fullhand = myhands + ophands
+        for hand in fullhand:
             handinfo.append(hand.get())
         results = self.m_pokerengine.determine_score(board, handinfo)
         results = zip(results,range(len(results)))
         results.sort(cmp=cmphands,reverse=True)
+
+        if self.m_debug:
+            for rank, data in enumerate(results):
+                print rank, " : ",fullhand[data[1]]
 
         opremain = oplen
         totalwin = 0
@@ -103,7 +110,7 @@ def test():
     ophands = []
     for handstr in ophandsstr:
         ophands.append(generateHands(handstr))
-    solo = SoloWinrateCalculator(board,myhands,ophands)
+    solo = SoloWinrateCalculator(board,myhands,ophands, True)
     print solo.calmywinrate()
     print solo.calnextturnwinrate()
 
