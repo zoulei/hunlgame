@@ -55,7 +55,11 @@ class SoloWinrateCalculator:
 
         if self.m_debug:
             for rank, data in enumerate(results):
-                print rank, " : ",fullhand[data[1]]
+                print rank, " : ",fullhand[data[1]],
+                if data[1] < mylen:
+                    print "   from myhand"
+                else:
+                    print
 
         opremain = oplen
         totalwin = 0
