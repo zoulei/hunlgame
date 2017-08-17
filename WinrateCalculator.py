@@ -31,31 +31,26 @@ class SoloWinrateCalculator:
 
         self.m_pokerengine = Poker()
 
-    def calmywinrate_(self, board, myhands, ophands):
-        for card in board:
-            for idx in xrange(len(myhands) - 1, -1 -1):
-                if card in myhands[idx].get():
-                    del myhands[idx]
-            for idx in xrange(len(ophands) - 1, -1 -1):
+    def calmywinrate__(self, board, myhand, ophands):
+        for card in myhand.get():
+            for idx in xrange(len(ophands) - 1, -1, -1):
                 if card in ophands[idx].get():
                     del ophands[idx]
-
-        if not len(myhands) or not len(ophands):
+        if not len(ophands):
             return -1
-
-        mylen = len(myhands)
+        mylen = 1
         oplen = len(ophands)
         handinfo = []
-        fullhand = myhands + ophands
+        fullhand = [myhand,] + ophands
         for hand in fullhand:
             handinfo.append(hand.get())
         results = self.m_pokerengine.determine_score(board, handinfo)
-        results = zip(results,range(len(results)))
-        results.sort(cmp=cmphands,reverse=True)
+        results = zip(results, range(len(results)))
+        results.sort(cmp=cmphands, reverse=True)
 
         if self.m_debug:
             for rank, data in enumerate(results):
-                print rank, " : ",fullhand[data[1]],
+                print rank, " : ", fullhand[data[1]],
                 if data[1] < mylen:
                     print "   from myhand"
                 else:
@@ -73,6 +68,29 @@ class SoloWinrateCalculator:
         avgwin = totalwin * 1.0 / mylen
         avgwinrate = avgwin / oplen
         return avgwinrate
+
+    def calmywinrate_(self, board, myhands, ophands):
+        for card in board:
+            for idx in xrange(len(myhands) - 1, -1, -1):
+                if card in myhands[idx].get():
+                    del myhands[idx]
+            for idx in xrange(len(ophands) - 1, -1, -1):
+                if card in ophands[idx].get():
+                    del ophands[idx]
+
+        if not len(myhands) or not len(ophands):
+            return -1
+
+        totalwinrate = 0
+        totalhand = 0
+        for hand in myhands:
+            curwinrate = self.calmywinrate__(board, hand, copy.deepcopy(ophands))
+            if curwinrate != -1:
+                totalwinrate += curwinrate
+                totalhand += 1
+        if totalhand == 0:
+            return -1
+        return totalwinrate / totalhand
 
     def calmywinrate(self):
         myhands = copy.deepcopy(self.m_myhands)
@@ -98,15 +116,15 @@ class SoloWinrateCalculator:
             if winrate == -1:
                 ignore += 1
             else:
-                avgwinrate += self.calmywinrate_(board,myhands,ophands)
+                avgwinrate += winrate
 
         avgwinrate /= ( len(allcards) - ignore )
         return avgwinrate
 
 def test():
-    myhandsstr = ["5SAC","2S2C","ASAC"]
+    myhandsstr = ["5SAC"]
     # ophandsstr = ["KSKC","KS5S"]
-    ophandsstr = ["6D7D"]
+    ophandsstr = ["5S7D", "ACKC", "2C7C"]
     board = generateCards("ADKD4S")
     myhands = []
     for handstr in myhandsstr:
@@ -114,7 +132,7 @@ def test():
     ophands = []
     for handstr in ophandsstr:
         ophands.append(generateHands(handstr))
-    solo = SoloWinrateCalculator(board,myhands,ophands, True)
+    solo = SoloWinrateCalculator(board,myhands,ophands, False)
     print solo.calmywinrate()
     print solo.calnextturnwinrate()
 
