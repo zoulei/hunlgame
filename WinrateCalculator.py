@@ -118,11 +118,14 @@ class SoloWinrateCalculator:
             else:
                 avgwinrate += winrate
 
-        avgwinrate /= ( len(allcards) - ignore )
-        return avgwinrate
+        if len(allcards) == ignore:
+            return -1
+        else:
+            avgwinrate /= ( len(allcards) - ignore )
+            return avgwinrate
 
 def test():
-    myhandsstr = ["5SAC"]
+    myhandsstr = ["5SAD"]
     # ophandsstr = ["KSKC","KS5S"]
     ophandsstr = ["5S7D", "ACKC", "2C7C"]
     board = generateCards("ADKD4S")
