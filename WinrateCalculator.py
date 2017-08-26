@@ -124,8 +124,32 @@ class SoloWinrateCalculator:
             avgwinrate /= ( len(allcards) - ignore )
             return avgwinrate
 
+    def calnextturnstackwinrate(self):
+        handrangeobj = HandsRange()
+        allcards = handrangeobj._generateallcard()
+        for card in self.m_board:
+            allcards.remove(card)
+
+        nextturnwinratelist = []
+
+        for card in allcards:
+            board = copy.deepcopy(self.m_board)
+            board.append(card)
+
+            myhands = copy.deepcopy(self.m_myhands)
+            ophands = copy.deepcopy(self.m_ophands)
+
+            winrate = self.calmywinrate_(board,myhands,ophands)
+            if winrate == -1:
+                continue
+
+            nextturnwinratelist.append([board, winrate])
+
+        nextturnwinratelist.sort(key = lambda v:v[1])
+        return nextturnwinratelist
+
 def test():
-    myhandsstr = ["5SAD"]
+    myhandsstr = ["8S9D"]
     # ophandsstr = ["KSKC","KS5S"]
     ophandsstr = ["5S7D", "ACKC", "2C7C"]
     board = generateCards("ADKD4S")
@@ -137,7 +161,7 @@ def test():
         ophands.append(generateHands(handstr))
     solo = SoloWinrateCalculator(board,myhands,ophands, False)
     print solo.calmywinrate()
-    print solo.calnextturnwinrate()
+    print solo.calnextturnstackwinrate()
 
 if __name__ == "__main__":
     test()
