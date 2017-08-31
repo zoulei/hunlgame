@@ -133,7 +133,7 @@ class SoloWinrateCalculator:
         nextturnwinratelist = []
 
         for card in allcards:
-            board = copy.deepcopy(self.m_board)
+            board = copy.deepcopy(list(self.m_board))
             board.append(card)
 
             myhands = copy.deepcopy(self.m_myhands)
