@@ -23,7 +23,7 @@ class SoloWinrateCalculator:
     def __init__(self, board, myhands, ophands,debug = False):
         self.m_myhands = myhands
         self.m_ophands = ophands
-        self.m_board = board
+        self.m_board = list(board)
         self.m_mylen = len(myhands)
         self.m_oplen = len(ophands)
 
@@ -133,7 +133,7 @@ class SoloWinrateCalculator:
         nextturnwinratelist = []
 
         for card in allcards:
-            board = copy.deepcopy(list(self.m_board))
+            board = copy.deepcopy(self.m_board)
             board.append(card)
 
             myhands = copy.deepcopy(self.m_myhands)
