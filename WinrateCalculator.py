@@ -3,6 +3,7 @@ from handsrange import HandsRange
 import copy
 from deck import Hands,generateCards,generateHands
 
+# bigger, idx lesser
 def cmphands(result1,result2):
     result1 = result1[0]
     result2 = result2[0]
@@ -18,6 +19,71 @@ def cmphands(result1,result2):
                 return -1
         else:
             return 0
+
+class FPWinrateEngine:
+    def __init__(self, board, myhand, ophands = None):
+        self.m_board = board
+        self.m_myhand = myhand
+        if ophands is None:
+            self.initophands()
+        else:
+            self.m_ophands = ophands
+
+        self.determinscore()
+
+    def determinscore(self):
+        self.m_pokerengine = Poker()
+        handinfo = []
+        fullhand = [self.m_myhand,] + self.m_ophands
+        for hand in fullhand:
+            handinfo.append(hand.get())
+        results = self.m_pokerengine.determine_score(self.m_board, handinfo)
+        results = zip(results, range(len(results)))
+        results.sort(cmp=cmphands, reverse=True)
+
+        self.m_handrank = []
+        lastresult = results[0][0]
+        idxlist = [results[0][1],]
+        for result, idx in results[1:]:
+            if result == lastresult:
+                idxlist.append(idx)
+            else:
+                self.m_handrank.append(idxlist)
+                idxlist = [idx]
+            lastresult = result
+        self.m_handrank.append(idxlist)
+
+    def initophands(self):
+        handsrange = HandsRange()
+        for card in self.m_board:
+            handsrange.eliminateCard(card)
+        for card in self.m_myhand.get():
+            handsrange.eliminateCard(card)
+        self.m_ophands = handsrange.get()
+
+    def isnuts(self):
+        if 0 in self.m_handrank[0]:
+            return True
+        return False
+
+    # para:
+    # equalvalue: how much win when tie
+    def calmywinrate(self, equalvalue = 0):
+        winhand = 0
+        losehand = 0
+        lose = True
+        for idxlist in self.m_handrank:
+            if lose:
+                if 0 in idxlist:
+                    winhand += (len(idxlist) - 1 ) * equalvalue
+                    losehand += (len(idxlist) - 1 ) * (1 - equalvalue)
+                    lose = False
+                else:
+                    losehand += len(idxlist)
+            else:
+                winhand += len(idxlist)
+        winrate = winhand * 1.0 / (winhand + losehand)
+        return winrate
 
 class SoloWinrateCalculator:
     def __init__(self, board, myhands, ophands,debug = False):
@@ -163,5 +229,19 @@ def test():
     print solo.calmywinrate()
     print solo.calnextturnstackwinrate()
 
+def testFPWinrate():
+    myhandsstr = "8S9D"
+    # ophandsstr = ["KSKC","KS5S"]
+    ophandsstr = ["5S7D", "ACKC", "2C7C","8S9D"]
+    board = generateCards("ADKD4S")
+    myhands = generateHands(myhandsstr)
+    ophands = []
+    for handstr in ophandsstr:
+        ophands.append(generateHands(handstr))
+    fp = FPWinrateEngine(board,myhands,ophands)
+    print fp.calmywinrate()
+    print fp.isnuts()
+
 if __name__ == "__main__":
-    test()
+    # test()
+    testFPWinrate()
