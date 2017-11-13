@@ -211,6 +211,9 @@ class Hands:
     def __str__(self):
         return str(self.m_card1) + " " +str(self.m_card2)
 
+    def __hash__(self):
+        return hash(self.__str__())
+
     def shortstr(self):
         if self.m_card1.symbol == self.m_card2.symbol:
             return str(self.m_card1)[0] + str(self.m_card2)[0] + "s"
