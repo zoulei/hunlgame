@@ -67,6 +67,9 @@ class HandsRange:
         for symbol in xrange(4):
             for value in xrange(14,1,-1):
                 curCard = deck.Card(symbol,value)
+                print "card:"
+                print curCard
+                print self.m_eliminateCard
                 if curCard not in self.m_eliminateCard:
                     cardslist.append(curCard)
         if self.debug:
