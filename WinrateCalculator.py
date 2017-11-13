@@ -55,6 +55,7 @@ class FPWinrateEngine:
 
     def initophands(self):
         handsrange = HandsRange()
+        handsrange.addFullRange()
         for card in self.m_board:
             handsrange.eliminateCard(card)
         for card in self.m_myhand.get():
