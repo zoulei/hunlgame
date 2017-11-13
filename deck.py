@@ -220,6 +220,7 @@ class Hands:
         else:
             return str(self.m_card1)[0] + str(self.m_card2)[0] + "o"
 
+    # this function is not completed yet
     def equal(self,handsstr):
         trandict = {"J":11,"Q":12,"K":13,"A":14,"j":11,"q":12,"k":13,"a":14}
         value1 = handsstr[0]
@@ -244,6 +245,9 @@ class Hands:
 
     def suti(self):
         return self.m_card1.symbol == self.m_card2.symbol
+
+    def pair(self):
+        return self.m_card1.value == self.m_card2.value
 
     def diff(self):
         return self.m_card2.value - self.m_card1.value
