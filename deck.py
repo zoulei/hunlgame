@@ -7,6 +7,7 @@ def generateCards(handsstr):
     trandict = {"T": 10, "t": 10, "J": 11, "Q": 12, "K": 13, "A": 14, "j": 11, "q": 12, "k": 13, "a": 14, 1:14,
                 "S": 0,"s": 0,"H": 1, "h": 1, "C": 2, "c": 2, "D": 3, "d": 3}
     cardsList = []
+    handsstr = handsstr.replace(" ","")
     for i in xrange(0, len(handsstr), 2):
         value = handsstr[i]
         symbol = handsstr[i + 1]
