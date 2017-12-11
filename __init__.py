@@ -8,21 +8,10 @@ from toygame import Toypoker
 from WinrateCalculator import SoloWinrateCalculator, FPWinrateEngine
 
 # card prensetation is [symbol, value]
-def getwinner(board, privatecard, coloroffset = 0):
+def getwinner(board,privatecard):
     poker = Poker(9, False)
 
-    cardboard = []
-    for carddata in board:
-        cardboard.append(deck.Card(carddata[0]+coloroffset,carddata[1]))
-
-    handsdata = []
-    for hands in privatecard:
-        cardhand = []
-        for carddata in hands:
-            cardhand.append(deck.Card(carddata[0]+coloroffset,carddata[1]) )
-        handsdata.append(cardhand)
-
-    results = poker.determine_score(cardboard, handsdata)
+    results = poker.determine_score(board, [v.get() for v in privatecard])
     winner = poker.determine_winner(results)
     if isinstance(winner,list):
         return winner
