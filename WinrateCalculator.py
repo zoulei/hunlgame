@@ -2,6 +2,7 @@ from holdem import Poker
 from handsrange import HandsRange
 import copy
 from deck import Hands,generateCards,generateHands
+import commonfunc
 
 # bigger, idx lesser
 def cmphands(result1,result2):
@@ -19,6 +20,79 @@ def cmphands(result1,result2):
                 return -1
         else:
             return 0
+
+class WinrateCalculator:
+    def __init__(self, board, myhand, ophands):
+        self.m_board = board
+        self.m_myhands = myhand
+        self.m_ophands = ophands
+        self.m_pokerengine = Poker()
+
+
+
+    def calmywinrate__(self, board, myhand, ophandslist):
+        for ophands in ophandslist:
+            for card in myhand.get():
+                ophandskey = ophands.keys()
+                for hand in ophandskey:
+                    if card in hand.get():
+                        del ophands[hand]
+            if not len(ophands):
+                return -1
+            mylen = 1
+            oplen = len(ophands)
+            handinfo = []
+            ophandskey = ophands.keys()
+
+
+
+            fullhand = [myhand,] + list(ophandskey)
+            for hand in fullhand:
+                handinfo.append(hand.get())
+            results = self.m_pokerengine.determine_score(board, handinfo)
+            results = zip(results, range(len(results)))
+            results.sort(cmp=cmphands, reverse=True)
+
+            opremain = oplen
+            totalwin = 0
+            for _, idx in results:
+                if idx == 0:
+                    # my hand
+                    totalwin += opremain
+                    break
+                else:
+                    opremain -= 1
+            avgwin = totalwin * 1.0 / mylen
+            avgwinrate = avgwin / oplen
+            return avgwinrate
+
+    def calmywinrate_(self, board, myhands, ophands):
+        for card in board:
+            for idx in xrange(len(myhands) - 1, -1, -1):
+                if card in myhands[idx].get():
+                    del myhands[idx]
+            for idx in xrange(len(ophands) - 1, -1, -1):
+                if card in ophands[idx].get():
+                    del ophands[idx]
+
+        if not len(myhands) or not len(ophands):
+            return -1
+
+        totalwinrate = 0
+        totalhand = 0
+        for hand in myhands:
+            curwinrate = self.calmywinrate__(board, hand, copy.deepcopy(ophands))
+            if curwinrate != -1:
+                totalwinrate += curwinrate
+                totalhand += 1
+        if totalhand == 0:
+            return -1
+        return totalwinrate / totalhand
+
+    def calmywinrate(self):
+        myhands = copy.deepcopy(self.m_myhands)
+        ophands = copy.deepcopy(self.m_ophands)
+        return self.calmywinrate_(self.m_board,myhands,ophands)
 
 class FPWinrateEngine:
     def __init__(self, board, myhand, ophands = None):
