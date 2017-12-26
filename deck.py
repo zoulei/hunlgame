@@ -455,4 +455,10 @@ if __name__ == "__main__":
     # TestPossibleBoard(3)
     # Testflopboardtype()
     # Testcardsengine()
-    Testshorthandstoallhands()
+    # Testshorthandstoallhands()
+    cardlist = []
+    for i in xrange(40):
+        cardlist.append(Cardsengine.randomcard(cardlist))
+        if cardlist[-1] in cardlist[:-1]:
+            print cardlist[-1],cardlist[cardlist[:-1].index(cardlist[-1])]
+        print len(cardlist)
