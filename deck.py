@@ -1,4 +1,4 @@
-from random import shuffle
+from random import shuffle, randint
 import copy
 import itertools
 import handsrange
@@ -194,6 +194,15 @@ class Cardsengine:
                 card2 = Card(symbol,value2)
                 handslist.append(Hands([card1,card2]))
         return handslist
+
+    @ staticmethod
+    def randomcard(existedcardslist = None):
+        if existedcardslist is None:
+            existedcardslist = []
+        while True:
+            newcard = Card(randint(0,3),randint(2,14))
+            if newcard not in existedcardslist:
+                return newcard
 
 class Hands:
     def __init__(self,hands):
