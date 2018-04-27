@@ -1,5 +1,7 @@
+# -*- coding:utf-8 -*-
 from deck import deck
 import sys
+from deck import generateCards
 
 class Poker:
     
@@ -457,3 +459,23 @@ class Poker:
         
         # A tie occurred, a list of the winners is returned
         return kicker.keys()
+
+def testscorespeed():
+    board = generateCards("AsKsTh8s7c")
+    hands = generateCards("AcQs")
+    poker = Poker()
+    import time
+    start = time.time()
+    for idx in xrange(1000):
+        poker.determine_score(board,[hands,])
+    print "elapsed:",(time.time() - start)/1000 * 100000000 / 3600 / 24
+    # 高牌7.57天
+    # set8天
+    # 葫芦8.2天
+    # 花8.2天
+    # 两对8.3天
+    # 顺7.8天
+    # 一对8天
+
+if __name__ == "__main__":
+    testscorespeed()
