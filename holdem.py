@@ -89,7 +89,7 @@ class Poker:
             return "Four of a Kind"
         elif type_of_hand == 8:
             return "Straight Flush"
-        else:
+        else: # type_of_hand == 9
             return "Royal Flush"
 
     #===============================================
@@ -467,7 +467,9 @@ def testscorespeed():
     import time
     start = time.time()
     for idx in xrange(1000):
-        poker.determine_score(board,[hands,])
+        print poker.determine_score(board,[hands,])
+        break
+
     print "elapsed:",(time.time() - start)/1000 * 100000000 / 3600 / 24
     # 高牌7.57天
     # set8天
