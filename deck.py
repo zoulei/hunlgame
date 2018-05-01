@@ -214,8 +214,11 @@ class Hands:
             self.m_card2 = hands[0]
 
     def __eq__(self, other):
-        if self.m_card1.sameValue(other.m_card1) and self.m_card2.sameValue(other.m_card2) and \
-            self.suti() == other.suti():
+        # if self.m_card1.sameValue(other.m_card1) and self.m_card2.sameValue(other.m_card2) and \
+        #     self.suti() == other.suti():
+        #     return True
+        # return False
+        if self.m_card1 == other.m_card1 and self.m_card2 == other.m_card2:
             return True
         return False
 
@@ -323,7 +326,6 @@ class Card:
             text = "A"
         else:
             text = str(self.value)
-
         if self.symbol == 0:    #D-Diamonds
             text += "S" 
         elif self.symbol == 1:  #H-Hearts
@@ -331,8 +333,7 @@ class Card:
         elif self.symbol == 2:  #S-Spade
             text += "C"
         else:   #C-Clubs
-            text += "D" 
-            
+            text += "D"
         return text    
     
 class deck:

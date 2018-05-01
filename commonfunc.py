@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from holdem import Poker
 import copy
 import deck
@@ -14,6 +15,7 @@ def getwinner(board,privatecard):
     else:
         return [winner,]
 
+# 此方法中是用[花色编号,数值编号]二元列表来表示牌
 def sorthands(board, privatecard, coloroffset = 0):
     # poker = Poker()
 
@@ -30,6 +32,7 @@ def sorthands(board, privatecard, coloroffset = 0):
 
     return sorthands_(cardboard,handsdata)
 
+# 此方法中的cardboard和handsdata中的元素为[card1,card2], card1和card2均为deck.Card对象
 def sorthands_(cardboard,handsdata):
     poker = Poker(debug=False)
     results = poker.determine_score(cardboard, handsdata)
