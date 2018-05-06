@@ -280,6 +280,7 @@ class Card:
 
     # compare value
     def __cmp__(self, other):
+        print "cmp"
         return self.cmp(other)
 
         # if self.value < other.value:
@@ -303,6 +304,7 @@ class Card:
                 return 0
 
     def __eq__(self, other):
+        print "eq"
         if self.value == other.value and self.symbol == other.symbol:
             return True
         return False
