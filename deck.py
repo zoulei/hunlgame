@@ -225,6 +225,9 @@ class Hands:
     def __str__(self):
         return str(self.m_card1) + " " +str(self.m_card2)
 
+    def cppstr(self):
+        return str(self.m_card1) + str(self.m_card2)
+
     def __hash__(self):
         return hash(self.__str__())
 
