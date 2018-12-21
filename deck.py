@@ -299,9 +299,9 @@ class Card:
             return 1
         else:
             if self.symbol > other.symbol:
-                return -1
-            elif self.symbol < other.symbol:
                 return 1
+            elif self.symbol < other.symbol:
+                return -1
             else:
                 return 0
 
